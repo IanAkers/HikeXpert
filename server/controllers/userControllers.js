@@ -31,11 +31,11 @@ module.exports = {
   },
 
   signup: function(req, res, next) {
+    console.log(req.body);
     var username = req.body.username;
     var password = req.body.password;
     var create;
     var newUser;
-
     var findOne = Q.nbind(User.findOne, User);
 
     // check to see if user already exists
@@ -45,8 +45,9 @@ module.exports = {
           next(new Error('User already exists!'));
         } else {
           // create a new user
-          create = Q.nbind(User.create, User);
-          newUser = {
+          console.log("create new one");
+          var create = Q.nbind(User.create, User);
+          var newUser = {
             username: username,
             password: password
           };
@@ -54,6 +55,7 @@ module.exports = {
         return create(newUser);
       })
       .then(function(user) {
+        console.log("in the then");
         // create token to send back for authorization
         var token = jwt.encode(user, 'superskrull');
         res.json({token: token});

@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema ({
     type: String,
     required: true,
     unique: true
-  }, 
+  },
   password: {
     type: String,
     required: true
@@ -27,7 +27,7 @@ var userSchema = new mongoose.Schema ({
     long: Number
   }],
   trails: [{
-    name: {type: String, required: true, unique: true},
+    name: {type: String, required: true},
     id: {type: mongoose.Schema.Types.ObjectId, ref: 'Trail'},
     done: Boolean,
   }],
@@ -57,7 +57,7 @@ userSchema.pre('save', function(next) {
   if ( !user.created_at ) {
     user.created_at = now;
   }
-  
+
   // only hash the password if it is new or modified
   if(!user.isModified('password')) {
     return next();
